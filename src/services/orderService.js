@@ -4,6 +4,57 @@ const redisService = require('./redisService');
 const logger = require('../utils/logger');
 
 class OrderService {
+  async checkout(userId, reservationId, shippingAddress, paymentMethod = 'credit_card') {
+    try {
+      const reservation = await redisService.releaseReservation(reservationId);
+      
+      if (!reservation.success) {
+        throw new Error('Invalid or expired reservation');
+      }
+
+      const product = await Product.findById(reservation.productId);
+      if (!product) {
+        throw new Error('Product not found');
+      }
+
+      const orderItems = [{
+        product: reservation.productId,
+        sku: product.sku,
+        quantity: reservation.quantity,
+        price: product.price,
+        subtotal: product.price * reservation.quantity
+      }];
+
+      const order = new Order({
+        user: userId,
+        items: orderItems,
+        totalAmount: orderItems[0].subtotal,
+        shippingAddress: shippingAddress,
+        billingAddress: shippingAddress,
+        reservationId: reservationId,
+        paymentStatus: 'paid',
+        status: 'confirmed',
+        confirmedDate: new Date()
+      });
+
+      await order.save();
+
+      await Product.findByIdAndUpdate(reservation.productId, {
+        $inc: { 
+          reservedStock: -reservation.quantity,
+          soldStock: reservation.quantity
+        }
+      });
+
+      logger.info(`Checkout completed: ${order.orderNumber} for user ${userId}, reservation: ${reservationId}`);
+      
+      return order;
+    } catch (error) {
+      logger.error('Error in checkout:', error);
+      throw error;
+    }
+  }
+
   async createOrder(userId, orderData, reservationId) {
     try {
       const reservation = await redisService.releaseReservation(reservationId);

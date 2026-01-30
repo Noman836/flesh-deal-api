@@ -20,6 +20,24 @@ class OrderController {
     }
   }
 
+  async checkout(req, res, next) {
+    try {
+      const userId = req.user.userId;
+      const { reservationId, shippingAddress, paymentMethod = 'credit_card' } = req.body;
+      
+      const order = await orderService.checkout(userId, reservationId, shippingAddress, paymentMethod);
+      
+      res.status(201).json({
+        success: true,
+        message: 'Checkout completed successfully',
+        data: order
+      });
+    } catch (error) {
+      logger.error('Error in checkout controller:', error);
+      next(error);
+    }
+  }
+
   async createBatchOrder(req, res, next) {
     try {
       const userId = req.user.userId;

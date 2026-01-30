@@ -1,11 +1,12 @@
 const express = require('express');
 const orderController = require('../controllers/orderController');
 const authMiddleware = require('../middleware/auth');
-const { validateOrderCreation, validateOrderStatusUpdate } = require('../validators/orderValidator');
+const { validateOrderCreation, validateCheckout, validateOrderStatusUpdate } = require('../validators/orderValidator');
 
 const router = express.Router();
 
 router.post('/', authMiddleware.authenticate, validateOrderCreation, orderController.createOrder);
+router.post('/checkout', authMiddleware.authenticate, validateCheckout, orderController.checkout);
 router.post('/batch', authMiddleware.authenticate, validateOrderCreation, orderController.createBatchOrder);
 
 router.get('/my', authMiddleware.authenticate, orderController.getUserOrders);
