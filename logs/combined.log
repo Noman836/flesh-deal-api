@@ -3871,3 +3871,24 @@
 {"level":"info","message":"Redis connected successfully","service":"flash-deal-api","timestamp":"2026-01-30T08:26:48.245Z"}
 {"level":"info","message":"Server running in development mode on port 3000","service":"flash-deal-api","timestamp":"2026-01-30T08:26:48.251Z"}
 {"level":"info","message":"Health check available at: http://localhost:3000/api/health","service":"flash-deal-api","timestamp":"2026-01-30T08:26:48.252Z"}
+{"level":"error","message":"SRV pre-check failed: ECONNREFUSED","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.542Z"}
+{"level":"warn","message":"MongoDB disconnected","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.565Z"}
+{"code":"ECONNREFUSED","hostname":"_mongodb._tcp.cluster0.bey1e0z.mongodb.net","level":"error","message":"Database connection attempt 1 failed: querySrv ECONNREFUSED _mongodb._tcp.cluster0.bey1e0z.mongodb.net","service":"flash-deal-api","stack":"Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.bey1e0z.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17)","syscall":"querySrv","timestamp":"2026-01-30T09:00:08.572Z"}
+{"level":"error","message":"DNS SRV lookup failed when resolving the MongoDB+SRV host. Possible causes:","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.574Z"}
+{"level":"error","message":"- No internet / DNS issues","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.575Z"}
+{"level":"error","message":"- Corporate firewall or DNS blocking SRV lookups","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.576Z"}
+{"level":"error","message":"- MongoDB Atlas IP access list not allowing your IP","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.577Z"}
+{"level":"error","message":"Suggestions:","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.577Z"}
+{"level":"error","message":"- Ensure your machine can resolve SRV records (try: nslookup -type=SRV _mongodb._tcp.<your-host>)","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.578Z"}
+{"level":"error","message":"- Temporarily allow 0.0.0.0/0 in Atlas Network Access for testing","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.578Z"}
+{"level":"error","message":"- If DNS SRV is blocked, construct a standard `mongodb://` seedlist connection string with explicit hosts from Atlas","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.579Z"}
+{"level":"info","message":"Switched DNS servers for Node resolver to: 1.1.1.1,8.8.8.8. Retrying...","service":"flash-deal-api","timestamp":"2026-01-30T09:00:08.584Z"}
+{"code":"ECONNREFUSED","hostname":"_mongodb._tcp.cluster0.bey1e0z.mongodb.net","level":"error","message":"MongoDB connection error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.bey1e0z.mongodb.net","service":"flash-deal-api","stack":"Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.bey1e0z.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17)","syscall":"querySrv","timestamp":"2026-01-30T09:00:08.584Z"}
+{"level":"info","message":"Resolved SRV records for cluster0.bey1e0z.mongodb.net: [{\"name\":\"ac-qsiiwle-shard-00-00.bey1e0z.mongodb.net\",\"port\":27017,\"priority\":0,\"weight\":0,\"type\":\"SRV\"},{\"name\":\"ac-qsiiwle-shard-00-01.bey1e0z.mongodb.net\",\"port\":27017,\"priority\":0,\"weight\":0,\"type\":\"SRV\"},{\"name\":\"ac-qsiiwle-shard-00-02.bey1e0z.mongodb.net\",\"port\":27017,\"priority\":0,\"weight\":0,\"type\":\"SRV\"}]","service":"flash-deal-api","timestamp":"2026-01-30T09:00:09.917Z"}
+{"level":"info","message":"MongoDB connected","service":"flash-deal-api","timestamp":"2026-01-30T09:00:12.927Z"}
+{"level":"info","message":"MongoDB Connected: ac-qsiiwle-shard-00-00.bey1e0z.mongodb.net","service":"flash-deal-api","timestamp":"2026-01-30T09:00:12.928Z"}
+{"level":"info","message":"Redis Client Connected","service":"flash-deal-api","timestamp":"2026-01-30T09:00:12.941Z"}
+{"level":"info","message":"Redis Client Ready","service":"flash-deal-api","timestamp":"2026-01-30T09:00:12.965Z"}
+{"level":"info","message":"Redis connected successfully","service":"flash-deal-api","timestamp":"2026-01-30T09:00:12.965Z"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"flash-deal-api","timestamp":"2026-01-30T09:00:12.969Z"}
+{"level":"info","message":"Health check available at: http://localhost:3000/api/health","service":"flash-deal-api","timestamp":"2026-01-30T09:00:12.970Z"}
