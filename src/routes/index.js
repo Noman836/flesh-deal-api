@@ -11,7 +11,7 @@ router.use('/products', productRoutes);
 router.use('/orders', orderRoutes);
 router.use('/users', userRoutes);
 
-router.get('/health', (req, res) => {
+router.get('/test', (req, res) => {
   res.json({
     success: true,
     message: 'Flash Deal API is running',

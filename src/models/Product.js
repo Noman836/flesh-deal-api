@@ -63,7 +63,7 @@ const productSchema = new mongoose.Schema({
     },
     maxReservationTime: {
       type: Number,
-      default: 7200 // 2 hours in seconds
+      default: 7200 
     }
   },
   category: {

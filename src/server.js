@@ -10,18 +10,18 @@ const redisClient = require('./config/redis');
 const logger = require('./utils/logger');
 const routes = require('./routes');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
-const { generalLimiter, authLimiter, reservationLimiter } = require('./middleware/rateLimiter');
+const { generalLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
 
 app.use(helmet());
 
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://yourdomain.com'] 
-    : ['http://localhost:3000', 'http://localhost:3001'],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: process.env.NODE_ENV === 'production' 
+//     ? ['https://yourdomain.com'] 
+//     : ['http://localhost:3000', 'http://localhost:3001'],
+//   credentials: true
+// }));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
     success: true,
     message: 'Flash Deal Reservation API',
     version: '1.0.0',
-    documentation: '/api/health',
+    documentation: '/api/test',
     endpoints: {
       auth: '/api/auth',
       products: '/api/products',

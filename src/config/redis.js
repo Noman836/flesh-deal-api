@@ -9,7 +9,6 @@ class RedisClient {
 
   async connect() {
     try {
-      // Prefer an explicit URL if provided (e.g. redis://:password@host:6379)
       if (process.env.REDIS_URL) {
         this.client = redis.createClient({ url: process.env.REDIS_URL });
       } else {
@@ -47,7 +46,6 @@ class RedisClient {
       await this.client.connect();
     } catch (error) {
       logger.error('Failed to connect to Redis:', error);
-      // If Redis is not required for local development, allow app to start
       if (process.env.REDIS_REQUIRED && process.env.REDIS_REQUIRED.toLowerCase() === 'false') {
         logger.warn('Continuing without Redis because REDIS_REQUIRED=false');
         return;

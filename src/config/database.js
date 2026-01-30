@@ -25,7 +25,6 @@ const checkSrv = async (host) => {
     const name = host.replace(/^mongodb\+srv:\/\//, '').split('/')[0];
     const target = name.replace(/^.*@/, '');
 
-    // If user provided DNS servers via env, apply them to c-ares
     if (process.env.MONGODB_DNS_SERVERS) {
       const servers = process.env.MONGODB_DNS_SERVERS.split(',').map(s => s.trim()).filter(Boolean);
       if (servers.length) {
@@ -38,7 +37,6 @@ const checkSrv = async (host) => {
     logger.info(`Resolved SRV records for ${target}: ${JSON.stringify(records)}`);
     return records;
   } catch (err) {
-    // Let caller handle logging
     throw err;
   }
 };
@@ -59,8 +57,6 @@ const connectDB = async () => {
     try {
       if (uri.startsWith('mongodb+srv://')) {
         try {
-          // try resolving SRV first for clearer diagnostics
-          // eslint-disable-next-line no-await-in-loop
           await checkSrv(uri);
         } catch (srvErr) {
           logger.error(`SRV pre-check failed: ${srvErr.code || srvErr.message}`);
@@ -91,7 +87,6 @@ const connectDB = async () => {
         logger.error('- Temporarily allow 0.0.0.0/0 in Atlas Network Access for testing');
         logger.error('- If DNS SRV is blocked, construct a standard `mongodb://` seedlist connection string with explicit hosts from Atlas');
 
-        // Try switching Node's DNS servers (c-ares) to public resolvers once
         if (!switchedDns) {
           try {
             const servers = process.env.MONGODB_DNS_SERVERS
@@ -100,8 +95,6 @@ const connectDB = async () => {
             dnsRaw.setServers(servers);
             switchedDns = true;
             logger.info(`Switched DNS servers for Node resolver to: ${servers.join(',')}. Retrying...`);
-            // small delay before retry
-            // eslint-disable-next-line no-await-in-loop
             await wait(500);
             continue;
           } catch (setErr) {
@@ -109,13 +102,9 @@ const connectDB = async () => {
           }
         }
 
-        // If user provided an explicit seedlist, try it as a fallback immediately
         if (process.env.MONGODB_SEEDLIST && !process.env.MONGODB_URI) {
           logger.info('Attempting fallback to MONGODB_SEEDLIST (non-SRV)');
-          // switch uri to seedlist and retry immediately
-          // eslint-disable-next-line require-atomic-updates
           uri = process.env.MONGODB_SEEDLIST;
-          // eslint-disable-next-line no-await-in-loop
           await wait(500);
           continue;
         }
@@ -124,8 +113,6 @@ const connectDB = async () => {
       if (attempt < maxAttempts) {
         const backoff = attempt * 1000;
         logger.info(`Retrying MongoDB connection in ${backoff}ms...`);
-        // small delay before retrying
-        // eslint-disable-next-line no-await-in-loop
         await wait(backoff);
         continue;
       }
